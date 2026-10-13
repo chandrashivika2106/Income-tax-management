@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Tax Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">TaxEase</div>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Get Started</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Income Tax Management System</h1>
+        <p>Manage taxpayer information, organize income records,<br>
+           and calculate your estimated income tax in one place.</p>
+        <br>
+        <a href="{{ url_for('register') }}" class="btn">Get Started</a>
+    </section>
+
+    <main class="container">
+        <section class="card">
+            <h2>A simpler way to manage your taxes</h2>
+            <p>Register an account to organize your taxpayer profile,
+               income details, deductions, and tax calculation history.</p>
+        </section>
+
+        <section class="feature-grid">
+            <div class="feature">
+                <h3>Secure Access</h3>
+                <p>Personal accounts with password hashing and login protection.</p>
+            </div>
+
+            <div class="feature">
+                <h3>Income Records</h3>
+                <p>Organize salary, property income, and other income sources.</p>
+            </div>
+
+            <div class="feature">
+                <h3>Tax Summary</h3>
+                <p>View estimated tax liability and saved calculation records.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        Income Tax Management System | PAT 4 Project
+    </footer>
+
+</body>
+</html>

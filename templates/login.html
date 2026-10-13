@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | TaxEase</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">TaxEase</div>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('register') }}">Create Account</a>
+        </div>
+    </nav>
+
+    <main class="card auth-card">
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Log in to access your tax management dashboard.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username" name="username"
+                       type="text" autocomplete="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" name="password"
+                       type="password" autocomplete="current-password" required>
+            </div>
+
+            <button type="submit" class="btn btn-full">Log In</button>
+        </form>
+
+        <p class="auth-footer">
+            New to TaxEase?
+            <a href="{{ url_for('register') }}">Create an account</a>
+        </p>
+    </main>
+
+    <footer>TaxEase | PAT 4 Project</footer>
+
+</body>
+</html>

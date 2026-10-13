@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tax History | TaxEase</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172b4d;
+        }
+
+        nav {
+            background: #142d4e;
+            color: white;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h2 {
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        th,
+        td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5eaf2;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #edf3fa;
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .amount {
+            font-weight: bold;
+        }
+
+        .payable {
+            color: #b45309;
+        }
+
+        .button {
+            display: inline-block;
+            background: #168f87;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 7px;
+            text-decoration: none;
+            margin-top: 15px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px 15px;
+            color: #64748b;
+        }
+
+        .back {
+            display: inline-block;
+            color: #168f87;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 18px;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            nav a {
+                margin-left: 0;
+                margin-right: 12px;
+            }
+
+            .container {
+                margin-top: 20px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <h2>TaxEase</h2>
+
+    <div>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</nav>
+
+<main class="container">
+
+    <a class="back" href="{{ url_for('dashboard') }}">
+        ← Back to Dashboard
+    </a>
+
+    <h1>Tax Records & History</h1>
+
+    <p class="subtitle">
+        View your previously saved income tax calculations.
+    </p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="message {{ 'error' if category == 'error' else '' }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <div class="table-container">
+
+        {% if records %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Record ID</th>
+                    <th>Gross Income</th>
+                    <th>Taxable Income</th>
+                    <th>Income Tax</th>
+                    <th>Cess</th>
+                    <th>Total Tax Liability</th>
+                    <th>Tax Payable</th>
+                    <th>Calculation Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>#{{ record[0] }}</td>
+
+                    <td class="amount">
+                        ₹{{ "{:,.2f}".format(record[1] or 0) }}
+                    </td>
+
+                    <td>
+                        ₹{{ "{:,.2f}".format(record[2] or 0) }}
+                    </td>
+
+                    <td>
+                        ₹{{ "{:,.2f}".format(record[3] or 0) }}
+                    </td>
+
+                    <td>
+                        ₹{{ "{:,.2f}".format(record[4] or 0) }}
+                    </td>
+
+                    <td class="amount">
+                        ₹{{ "{:,.2f}".format(record[5] or 0) }}
+                    </td>
+
+                    <td class="amount payable">
+                        ₹{{ "{:,.2f}".format(record[6] or 0) }}
+                    </td>
+
+                    <td>
+                        {{ record[7].strftime('%d %b %Y, %I:%M %p')
+                           if record[7] else 'N/A' }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+
+        <div class="empty">
+            <h2>No Tax Records Yet</h2>
+
+            <p>
+                Your saved tax calculations will appear here.
+            </p>
+
+            <a class="button"
+               href="{{ url_for('calculate_tax') }}">
+                Calculate Tax
+            </a>
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</main>
+
+<footer>
+    TaxEase | PAT 4 Project
+</footer>
+
+</body>
+</html>

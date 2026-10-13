@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | TaxEase</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172b4d;
+        }
+
+        nav {
+            background: #142d4e;
+            color: white;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .brand span {
+            color: #52d6c5;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #52d6c5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 22px;
+        }
+
+        .welcome {
+            background: linear-gradient(120deg, #17365d, #176b78);
+            color: white;
+            padding: 35px;
+            border-radius: 18px;
+            margin-bottom: 30px;
+        }
+
+        .welcome h1 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 30px;
+        }
+
+        .welcome p {
+            margin-bottom: 0;
+            color: #d9e8f5;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            margin: 32px 0 18px;
+            font-size: 22px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(20, 45, 78, 0.05);
+            border: 1px solid #e7edf5;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .stat-note {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 10px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .action-card {
+            background: white;
+            border: 1px solid #e7edf5;
+            border-radius: 14px;
+            padding: 25px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(20, 45, 78, 0.08);
+        }
+
+        .icon {
+            font-size: 30px;
+            margin-bottom: 14px;
+        }
+
+        .action-card h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+
+        .action-card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+            min-height: 45px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 11px 16px;
+            background: #168f87;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background: #10766f;
+        }
+
+        .button-secondary {
+            background: #17365d;
+        }
+
+        .button-secondary:hover {
+            background: #102743;
+        }
+
+        .button-outline {
+            background: white;
+            color: #17365d;
+            border: 1px solid #cbd5e1;
+        }
+
+        .button-outline:hover {
+            background: #edf3fa;
+        }
+
+        .profile-panel {
+            background: white;
+            border: 1px solid #e7edf5;
+            border-radius: 14px;
+            padding: 25px;
+            margin-top: 25px;
+        }
+
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 0;
+            border-bottom: 1px solid #edf1f6;
+        }
+
+        .profile-row:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .profile-value {
+            text-align: right;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 13px 16px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .empty-state {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 15px;
+            margin-top: 40px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 900px) {
+            .stats-grid,
+            .cards-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 13px;
+            }
+
+            .container {
+                padding: 0 15px;
+                margin-top: 20px;
+            }
+
+            .welcome {
+                padding: 25px;
+            }
+
+            .welcome h1 {
+                font-size: 24px;
+            }
+
+            .stats-grid,
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .profile-value {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="brand">
+        Tax<span>Ease</span>
+    </div>
+
+    <div class="nav-links">
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('profile') }}">My Profile</a>
+        <a href="{{ url_for('tax_history') }}">Tax History</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</nav>
+
+
+<main class="container">
+
+    <!-- FLASH MESSAGES -->
+
+    <div class="messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="message {{ 'error' if category == 'error' else '' }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+    </div>
+
+
+    <!-- WELCOME SECTION -->
+
+    <section class="welcome">
+        <h1>
+            Welcome back, {{ username or 'User' }}! 👋
+        </h1>
+
+        <p>
+            Manage your taxpayer profile, record your income,
+            calculate estimated income tax, and review your
+            previous calculations — all in one place.
+        </p>
+    </section>
+
+
+    <!-- SUMMARY CARDS -->
+
+    <h2 class="section-title">Your Overview</h2>
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-label">Profile Status</div>
+
+            <div class="stat-value">
+                {% if taxpayer %}
+                    <span class="badge">Completed</span>
+                {% else %}
+                    <span class="badge badge-warning">Incomplete</span>
+                {% endif %}
+            </div>
+
+            <div class="stat-note">
+                {% if taxpayer %}
+                    Your taxpayer profile is saved.
+                {% else %}
+                    Complete your profile to get started.
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="stat-card">
+            <div class="stat-label">Income Details</div>
+
+            <div class="stat-value">
+                {% if income %}
+                    <span class="badge">Saved</span>
+                {% else %}
+                    <span class="badge badge-warning">Not Added</span>
+                {% endif %}
+            </div>
+
+            <div class="stat-note">
+                {% if income %}
+                    Your income information is available.
+                {% else %}
+                    Add your income information.
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="stat-card">
+            <div class="stat-label">Saved Tax Calculations</div>
+
+            <div class="stat-value">
+                {{ tax_record_count }}
+            </div>
+
+            <div class="stat-note">
+                Previously saved tax calculations.
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- LATEST TAX CALCULATION -->
+
+    <h2 class="section-title">Latest Tax Calculation</h2>
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-label">Gross Total Income</div>
+
+            <div class="stat-value">
+                {% if latest_tax_record %}
+                    ₹{{ "{:,.2f}".format(latest_tax_record[1] or 0) }}
+                {% else %}
+                    —
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="stat-card">
+            <div class="stat-label">Taxable Income</div>
+
+            <div class="stat-value">
+                {% if latest_tax_record %}
+                    ₹{{ "{:,.2f}".format(latest_tax_record[2] or 0) }}
+                {% else %}
+                    —
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="stat-card">
+            <div class="stat-label">Total Tax Liability</div>
+
+            <div class="stat-value">
+                {% if latest_tax_record %}
+                    ₹{{ "{:,.2f}".format(latest_tax_record[3] or 0) }}
+                {% else %}
+                    —
+                {% endif %}
+            </div>
+
+            <div class="stat-note">
+                {% if latest_tax_record %}
+                    Tax calculation saved successfully.
+                {% else %}
+                    No tax calculation available yet.
+                {% endif %}
+            </div>
+        </div>
+
+    </section>
+
+
+    {% if taxpayer and latest_tax_record %}
+
+        <div class="profile-panel">
+
+            <div class="profile-row">
+                <span class="profile-label">Latest Record ID</span>
+
+                <span class="profile-value">
+                    #{{ latest_tax_record[0] }}
+                </span>
+            </div>
+
+            <div class="profile-row">
+                <span class="profile-label">Tax Payable After TDS</span>
+
+                <span class="profile-value">
+                    ₹{{ "{:,.2f}".format(latest_tax_record[4] or 0) }}
+                </span>
+            </div>
+
+            <div class="profile-row">
+                <span class="profile-label">Calculation Date</span>
+
+                <span class="profile-value">
+                    {{ latest_tax_record[5].strftime('%d %b %Y, %I:%M %p')
+                       if latest_tax_record[5] else 'N/A' }}
+                </span>
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- QUICK ACTIONS -->
+
+    <h2 class="section-title">Quick Actions</h2>
+
+    <section class="cards-grid">
+
+        <div class="action-card">
+            <div class="icon">👤</div>
+
+            <h3>Taxpayer Profile</h3>
+
+            <p>
+                Create or update your taxpayer information
+                and financial year.
+            </p>
+
+            <a href="{{ url_for('profile') }}"
+               class="button button-secondary">
+                Manage Profile
+            </a>
+        </div>
+
+
+        <div class="action-card">
+            <div class="icon">💰</div>
+
+            <h3>Income Details</h3>
+
+            <p>
+                Record salary, house property income,
+                other income, deductions, and TDS.
+            </p>
+
+            <a href="{{ url_for('income') }}"
+               class="button button-secondary">
+                Manage Income
+            </a>
+        </div>
+
+
+        <div class="action-card">
+            <div class="icon">🧮</div>
+
+            <h3>Income Tax Calculator</h3>
+
+            <p>
+                Calculate estimated income tax using
+                the supported new-regime calculation.
+            </p>
+
+            <a href="{{ url_for('calculate_tax') }}"
+               class="button">
+                Calculate Tax
+            </a>
+        </div>
+
+
+        <div class="action-card">
+            <div class="icon">📋</div>
+
+            <h3>Tax Records & History</h3>
+
+            <p>
+                View your previous tax calculations,
+                liabilities, TDS-adjusted tax payable,
+                and calculation dates.
+            </p>
+
+            <a href="{{ url_for('tax_history') }}"
+               class="button">
+                View Tax History
+            </a>
+        </div>
+
+
+        <div class="action-card">
+            <div class="icon">📊</div>
+
+            <h3>Latest Calculation</h3>
+
+            <p>
+                {% if latest_tax_record %}
+                    Review your most recently saved tax record.
+                {% else %}
+                    Calculate your tax to create your first record.
+                {% endif %}
+            </p>
+
+            {% if latest_tax_record %}
+
+                <a href="{{ url_for('tax_history') }}"
+                   class="button button-outline">
+                    View Saved Records
+                </a>
+
+            {% else %}
+
+                <a href="{{ url_for('calculate_tax') }}"
+                   class="button button-outline">
+                    Start Calculation
+                </a>
+
+            {% endif %}
+        </div>
+
+
+        <div class="action-card">
+            <div class="icon">⚙️</div>
+
+            <h3>Account</h3>
+
+            <p>
+                Manage your session and securely log out
+                when you finish using TaxEase.
+            </p>
+
+            <a href="{{ url_for('logout') }}"
+               class="button button-outline">
+                Logout
+            </a>
+        </div>
+
+    </section>
+
+
+    <!-- PROFILE SUMMARY -->
+
+    <h2 class="section-title">Taxpayer Summary</h2>
+
+    <section class="profile-panel">
+
+        {% if taxpayer %}
+
+            <div class="profile-row">
+                <span class="profile-label">Full Name</span>
+
+                <span class="profile-value">
+                    {{ taxpayer[1] }}
+                </span>
+            </div>
+
+            <div class="profile-row">
+                <span class="profile-label">PAN</span>
+
+                <span class="profile-value">
+                    {{ taxpayer[2] }}
+                </span>
+            </div>
+
+            <div class="profile-row">
+                <span class="profile-label">Financial Year</span>
+
+                <span class="profile-value">
+                    {{ taxpayer[3] }}
+                </span>
+            </div>
+
+        {% else %}
+
+            <p class="empty-state">
+                Your taxpayer profile has not been created yet.
+                Create it to access income management and tax calculation.
+            </p>
+
+            <a href="{{ url_for('profile') }}"
+               class="button">
+                Create Taxpayer Profile
+            </a>
+
+        {% endif %}
+
+    </section>
+
+
+    <p class="empty-state" style="margin-top: 25px; font-size: 12px;">
+        Disclaimer: TaxEase provides educational tax estimates.
+        Results may not reflect every applicable tax rule or exception.
+        Verify calculations against official guidance before relying on them.
+    </p>
+
+</main>
+
+
+<footer>
+    TaxEase | Income Tax Management System | PAT 4 Project
+</footer>
+
+</body>
+</html>

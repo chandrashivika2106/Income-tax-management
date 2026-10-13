@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Income Details | TaxEase</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="brand">TaxEase</div>
+
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('profile') }}">My Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <section class="card auth-card">
+
+            <h1>Income Details</h1>
+
+            <p class="subtitle">
+                Enter your annual income, deductions and TDS.
+                Your information will be saved securely in Oracle.
+            </p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endwith %}
+
+            <form method="POST">
+
+                <div class="form-group">
+                    <label for="salary_income">Salary Income (₹)</label>
+
+                    <input
+                        type="number"
+                        id="salary_income"
+                        name="salary_income"
+                        min="0"
+                        max="9999999999.99"
+                        step="0.01"
+                        value="{{ income.salary_income if income else '0' }}"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="house_property_income">
+                        House Property Income (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="house_property_income"
+                        name="house_property_income"
+                        min="0"
+                        max="9999999999.99"
+                        step="0.01"
+                        value="{{ income.house_property_income if income else '0' }}"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="other_income">Other Income (₹)</label>
+
+                    <input
+                        type="number"
+                        id="other_income"
+                        name="other_income"
+                        min="0"
+                        max="9999999999.99"
+                        step="0.01"
+                        value="{{ income.other_income if income else '0' }}"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="eligible_deductions">
+                        Eligible Deductions (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="eligible_deductions"
+                        name="eligible_deductions"
+                        min="0"
+                        max="9999999999.99"
+                        step="0.01"
+                        value="{{ income.eligible_deductions if income else '0' }}"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tds_amount">TDS Amount (₹)</label>
+
+                    <input
+                        type="number"
+                        id="tds_amount"
+                        name="tds_amount"
+                        min="0"
+                        max="9999999999.99"
+                        step="0.01"
+                        value="{{ income.tds_amount if income else '0' }}"
+                        required>
+                </div>
+
+                <button type="submit" class="btn btn-full">
+                    Save Income Details
+                </button>
+
+            </form>
+
+            {% if income %}
+                <p class="auth-footer">
+                    Your income details are saved.
+                    You can update them using this form.
+                </p>
+            {% endif %}
+
+        </section>
+
+    </main>
+
+    <footer>
+        TaxEase | Income Tax Management System | PAT 4 Project
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tax Summary | TaxEase</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .result-amount {
+            font-size: 30px;
+            font-weight: 700;
+            color: #142b4a;
+            margin: 12px 0;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .result-table td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .result-table td:last-child {
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .total-row {
+            background: #f0fdfa;
+            color: #11736d;
+        }
+
+        @media (max-width: 600px) {
+            .result-table td {
+                padding: 12px 5px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="brand">TaxEase</div>
+
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <section class="card">
+
+            <h1>Tax Calculation Summary</h1>
+
+            <p class="subtitle">
+                Financial Year: {{ financial_year }}
+                | New Tax Regime
+            </p>
+
+            <p>Estimated total tax liability</p>
+
+            <div class="result-amount">
+                ₹{{ "{:,.2f}".format(result.total_tax_liability) }}
+            </div>
+
+            <table class="result-table">
+
+                <tr>
+                    <td>Gross Total Income</td>
+                    <td>₹{{ "{:,.2f}".format(result.gross_total_income) }}</td>
+                </tr>
+
+                <tr>
+                    <td>Standard Deduction</td>
+                    <td>₹{{ "{:,.2f}".format(result.standard_deduction) }}</td>
+                </tr>
+
+                <tr>
+                    <td>Taxable Income</td>
+                    <td>₹{{ "{:,.2f}".format(result.taxable_income) }}</td>
+                </tr>
+
+                <tr>
+                    <td>Tax Before Rebate</td>
+                    <td>₹{{ "{:,.2f}".format(result.tax_before_rebate) }}</td>
+                </tr>
+
+                <tr>
+                    <td>Rebate / Marginal Relief</td>
+                    <td>₹{{ "{:,.2f}".format(result.rebate) }}</td>
+                </tr>
+
+                <tr>
+                    <td>Income Tax After Rebate</td>
+                    <td>₹{{ "{:,.2f}".format(result.income_tax) }}</td>
+                </tr>
+
+                <tr>
+                    <td>Health &amp; Education Cess</td>
+                    <td>₹{{ "{:,.2f}".format(result.cess) }}</td>
+                </tr>
+
+                <tr class="total-row">
+                    <td><strong>Total Tax Liability</strong></td>
+                    <td>₹{{ "{:,.2f}".format(result.total_tax_liability) }}</td>
+                </tr>
+
+                <tr>
+                    <td>TDS Already Paid</td>
+                    <td>₹{{ "{:,.2f}".format(result.tds_amount) }}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Estimated Tax Payable</strong></td>
+                    <td>₹{{ "{:,.2f}".format(result.tax_payable) }}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Estimated Excess TDS</strong></td>
+                    <td>₹{{ "{:,.2f}".format(result.refund_estimate) }}</td>
+                </tr>
+
+            </table>
+
+            <br>
+
+            <a href="{{ url_for('calculate_tax') }}" class="btn">
+                Recalculate Tax
+            </a>
+
+            <a href="{{ url_for('dashboard') }}" class="btn">
+                Back to Dashboard
+            </a>
+
+        </section>
+
+        <section class="card">
+            <p style="line-height:1.7; color:#64748b;">
+                <strong>Educational estimate only.</strong>
+                This summary assumes ordinary income and does not
+                cover every tax provision, special-rate income,
+                surcharge, or statutory exception. Verify all
+                applicable rules before relying on the result.
+            </p>
+        </section>
+
+    </main>
+
+    <footer>TaxEase | PAT 4 Project</footer>
+
+</body>
+</html>

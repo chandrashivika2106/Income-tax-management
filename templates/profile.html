@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxpayer Profile | TaxEase</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">TaxEase</div>
+
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="card auth-card">
+            <h1>Taxpayer Profile</h1>
+
+            <p class="subtitle">
+                Enter your details to maintain your taxpayer record.
+            </p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endwith %}
+
+            <form method="POST">
+                <div class="form-group">
+                    <label for="full_name">Full Name</label>
+
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        maxlength="100"
+                        value="{{ taxpayer.full_name if taxpayer else '' }}"
+                        autocomplete="name"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pan">PAN</label>
+
+                    <input
+                        type="text"
+                        id="pan"
+                        name="pan"
+                        maxlength="10"
+                        pattern="[A-Za-z]{5}[0-9]{4}[A-Za-z]"
+                        title="Enter a valid 10-character PAN."
+                        value="{{ taxpayer.pan if taxpayer else '' }}"
+                        style="text-transform: uppercase;"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="financial_year">Financial Year</label>
+
+                    <select
+                        id="financial_year"
+                        name="financial_year"
+                        required
+                        style="width:100%; padding:13px; border:1px solid #cbd5e1; border-radius:8px;">
+
+                        {% for year in ["2025-2026", "2026-2027", "2027-2028"] %}
+                            <option
+                                value="{{ year }}"
+                                {% if taxpayer and taxpayer.financial_year == year %}
+                                    selected
+                                {% elif not taxpayer and year == "2026-2027" %}
+                                    selected
+                                {% endif %}>
+                                {{ year }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-full">
+                    Save Profile
+                </button>
+            </form>
+
+            {% if taxpayer %}
+                <p class="auth-footer">
+                    Your taxpayer profile is saved in Oracle.
+                    You can update it using this form.
+                </p>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer>TaxEase | PAT 4 Project</footer>
+
+</body>
+</html>
